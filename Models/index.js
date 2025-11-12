@@ -1,6 +1,5 @@
 const { Sequelize, DataTypes } = require('sequelize');
 require('dotenv').config();
-
 // Connect to DB
 const sequelize = new Sequelize(
   process.env.DB_NAME,
@@ -11,6 +10,12 @@ const sequelize = new Sequelize(
     port: process.env.DB_PORT,
     dialect: 'postgres',  // PostgreSQL
     logging: console.log,  // Optional: Logs SQL queries for debugging (remove in prod)
+    dialectOptions: {
+      ssl: process.env.DB_SSL === 'true' ? {
+        require: true,
+        rejectUnauthorized: false
+      } : false
+    }
   }
 );
 
